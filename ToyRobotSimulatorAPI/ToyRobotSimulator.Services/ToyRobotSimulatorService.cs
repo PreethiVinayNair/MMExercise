@@ -8,22 +8,25 @@ using Microsoft.Extensions.Primitives;
 
 namespace ToyRobotSimulator.Services
 {
-      /// <summary>
+    /// <summary>
     /// This class is used to as a service class to simulate the behaviuor of a toy.
     /// </summary>
-  public class ToyRobotSimulatorService : IToyRobotSimulatorService
+    public class ToyRobotSimulatorService : IToyRobotSimulatorService
     {
-        
-        public string simulate(IDictionary<string,StringValues> toysimulatorArguments)
+
+        ToyBoardService toyboard = new ToyBoardService(5, 5);
+        ToyRobotPlacementService toyRobotPlacement = new ToyRobotPlacementService();
+
+        public string simulate(IDictionary<string, StringValues> toysimulatorArguments)
         {
-            string[] arguments=Convert.ToString(toysimulatorArguments["request"]).Split(';');//request=PLACE 0,0,NORTH;MOVE;MOVE;LEFT;REPORT
-                    return ExecSimulator(arguments);
+            string[] arguments = Convert.ToString(toysimulatorArguments["request"]).Split(';');//request=PLACE 0,0,NORTH;MOVE;MOVE;LEFT;REPORT
+            return ExecSimulator(arguments);
         }
-                
+
         private string ExecSimulator(string[] simulatorArguments)
+        {
+            foreach (string command in simulatorArguments)
             {
-                    foreach(string command in simulatorArguments)
-                        {
                 ToyCommandEnum toyCommand;
                 if (command.Contains("Place"))
                 {
@@ -31,29 +34,40 @@ namespace ToyRobotSimulator.Services
                 }
                 else
                 {
-                     toyCommand = (ToyCommandEnum)Enum.Parse(typeof(ToyCommandEnum), command);
+                    toyCommand = (ToyCommandEnum)Enum.Parse(typeof(ToyCommandEnum), command);
                 }
 
-                        switch(toyCommand)
-                            {
-                        case ToyCommandEnum.Place :
-                            string[] placeCommand= Regex.Replace(command, "PLACE ", "", RegexOptions.IgnoreCase).Split(',');
-                            int toyPosition_XCoordinate = Convert.ToInt32(placeCommand[0]);
-                            int toyPosition_YCoordainate = Convert.ToInt32(placeCommand[1]);
-                            string toyFacingDirection=placeCommand[2].ToString();
+                switch (toyCommand)
+                {
+                    case ToyCommandEnum.Place:
+                        string[] placeCommand = Regex.Replace(command, "PLACE ", "", RegexOptions.IgnoreCase).Split(',');
+                        int toyPosition_XCoordinate = Convert.ToInt32(placeCommand[0]);
+                        int toyPosition_YCoordainate = Convert.ToInt32(placeCommand[1]);
+                        ToyPosition position = new ToyPosition(toyPosition_XCoordinate, toyPosition_YCoordainate);
+
+                        string toyFacingDirection = placeCommand[2].ToString();
+                        if (toyboard.CheckPositionAvailability(position))
+                            toyRobotPlacement.PlaceToy(position, (ToyFacingDirection)Enum.Parse(typeof(ToyFacingDirection), toyFacingDirection));
                         break;
-                        case ToyCommandEnum.Move:
+                    case ToyCommandEnum.Move:
+                        var newPosition = toyRobotPlacement.GetNextAvailablePosition();
+                        if (toyboard.CheckPositionAvailability(newPosition))
+                            toyRobotPlacement.Position = newPosition;
                         break;
                     case ToyCommandEnum.Left:
+                        toyRobotPlacement.Rotate(ToyCommandEnum.Left);
                         break;
                     case ToyCommandEnum.Right:
+                        toyRobotPlacement.Rotate(ToyCommandEnum.Right);
                         break;
                     case ToyCommandEnum.Report:
-                            return String.Empty;
-                           }    
-                      }
-           return string.Empty;
+                        string report = string.Format("Output: {0},{1},{2}", toyRobotPlacement.Position.X_Coordinate,
+                  toyRobotPlacement.Position.Y_Coordinate, toyRobotPlacement.Direction.ToString().ToUpper());
+                        return report;
                 }
-   }
+            }
+            return string.Empty;
+        }
+    }
 }
     
