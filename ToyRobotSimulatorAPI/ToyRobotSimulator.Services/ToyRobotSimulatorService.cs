@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using ToyRobotSimulator.Services.Helper;
 using Microsoft.Extensions.Primitives;
-
+using System.Linq;
 
 namespace ToyRobotSimulator.Services
 {
@@ -25,12 +25,15 @@ namespace ToyRobotSimulator.Services
 
         private string ExecSimulator(string[] simulatorArguments)
         {
+            if (!(simulatorArguments.First().Contains( "Place")))
+                return "Please give Place as first value";
             foreach (string command in simulatorArguments)
             {
                 ToyCommandEnum toyCommand;
                 if (command.Contains("Place"))
                 {
                     toyCommand = ToyCommandEnum.Place;
+                 
                 }
                 else
                 {
@@ -40,7 +43,7 @@ namespace ToyRobotSimulator.Services
                 switch (toyCommand)
                 {
                     case ToyCommandEnum.Place:
-                        string[] placeCommand = Regex.Replace(command, "PLACE ", "", RegexOptions.IgnoreCase).Split(',');
+                        string[] placeCommand = Regex.Replace(command, "Place ", "", RegexOptions.IgnoreCase).Split(',');
                         int toyPosition_XCoordinate = Convert.ToInt32(placeCommand[0]);
                         int toyPosition_YCoordainate = Convert.ToInt32(placeCommand[1]);
                         ToyPosition position = new ToyPosition(toyPosition_XCoordinate, toyPosition_YCoordainate);

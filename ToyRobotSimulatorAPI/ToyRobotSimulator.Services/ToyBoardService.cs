@@ -20,8 +20,8 @@ namespace ToyRobotSimulator.Services
         // Function checks if position is available within the limits
         public bool CheckPositionAvailability(ToyPosition position)
         {
-            return position.X_Coordinate < Columns_Y && position.X_Coordinate >= 0 &&
-                   position.Y_Coordinate < Rows_X && position.Y_Coordinate >= 0;
+            return position.X_Coordinate <= Columns_Y && position.X_Coordinate >= 0 &&
+                   position.Y_Coordinate <= Rows_X && position.Y_Coordinate >= 0;
         }
     }
 }

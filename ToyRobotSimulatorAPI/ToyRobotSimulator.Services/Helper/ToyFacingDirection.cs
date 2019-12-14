@@ -7,8 +7,8 @@ namespace ToyRobotSimulator.Services.Helper
  public enum ToyFacingDirection
     {
         North,
-        South,
         East,
+        South,
         West
     };
 }
