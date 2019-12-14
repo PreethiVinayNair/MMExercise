@@ -8,7 +8,9 @@ namespace ToyRobotSimulator.Services
     public interface IToyRobotPlacementService
     { 
         //Function required to get the next available position for the toy
-                ToyPosition GetNextAvailablePosition();
-    
+        ToyPosition GetNextAvailablePosition();
+        void Rotate(ToyCommandEnum toyCommand);
+
+
     }
 }

@@ -10,10 +10,10 @@ namespace ToyRobotSimulator.Services
     {
 
 
-       public ToyFacingDirection Direction { get; set; }
+       public ToyFacingDirectionEnum Direction { get; set; }
        public ToyPosition Position { get; set; }
 
-        public void PlaceToy(ToyPosition position, ToyFacingDirection direction)
+        public void PlaceToy(ToyPosition position, ToyFacingDirectionEnum direction)
         {
             this.Position = position;
             this.Direction = direction;
@@ -27,16 +27,16 @@ namespace ToyRobotSimulator.Services
             var newPosition = new ToyPosition(Position.X_Coordinate, Position.Y_Coordinate);
             switch (Direction)
             {
-                case ToyFacingDirection.North:
+                case ToyFacingDirectionEnum.North:
                     ++newPosition.Y_Coordinate;
                     break;
-                case ToyFacingDirection.East:
+                case ToyFacingDirectionEnum.East:
                    ++newPosition.X_Coordinate;
                     break;
-                case ToyFacingDirection.South:
+                case ToyFacingDirectionEnum.South:
                    -- newPosition.Y_Coordinate;
                     break;
-                case ToyFacingDirection.West:
+                case ToyFacingDirectionEnum.West:
                     --newPosition.X_Coordinate;
                     break;
             }
@@ -59,7 +59,7 @@ namespace ToyRobotSimulator.Services
 
         private void RotateDirections(int rotationPoint)
         {
-            var directionsValues = (ToyFacingDirection[])Enum.GetValues(typeof(ToyFacingDirection));
+            var directionsValues = (ToyFacingDirectionEnum[])Enum.GetValues(typeof(ToyFacingDirectionEnum));
            Direction= ((Direction + rotationPoint) < 0) ? directionsValues[directionsValues.Length - 1]:directionsValues[((int)(Direction + rotationPoint)) % directionsValues.Length];
             }
         }

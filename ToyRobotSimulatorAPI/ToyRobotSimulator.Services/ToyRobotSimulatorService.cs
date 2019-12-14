@@ -25,12 +25,12 @@ namespace ToyRobotSimulator.Services
 
         private string ExecSimulator(string[] simulatorArguments)
         {
-            if (!(simulatorArguments.First().Contains( "Place")))
-                return "Please give Place as first value";
+            if (!(simulatorArguments.First().Contains((ToyCommandEnum.Place).ToString())))
+                throw new Exception ("Error: Please give Place as first value");
             foreach (string command in simulatorArguments)
             {
                 ToyCommandEnum toyCommand;
-                if (command.Contains("Place"))
+                if (command.Contains((ToyCommandEnum.Place).ToString()))
                 {
                     toyCommand = ToyCommandEnum.Place;
                  
@@ -47,10 +47,9 @@ namespace ToyRobotSimulator.Services
                         int toyPosition_XCoordinate = Convert.ToInt32(placeCommand[0]);
                         int toyPosition_YCoordainate = Convert.ToInt32(placeCommand[1]);
                         ToyPosition position = new ToyPosition(toyPosition_XCoordinate, toyPosition_YCoordainate);
-
                         string toyFacingDirection = placeCommand[2].ToString();
                         if (toyboard.CheckPositionAvailability(position))
-                            toyRobotPlacement.PlaceToy(position, (ToyFacingDirection)Enum.Parse(typeof(ToyFacingDirection), toyFacingDirection));
+                            toyRobotPlacement.PlaceToy(position, (ToyFacingDirectionEnum)Enum.Parse(typeof(ToyFacingDirectionEnum), toyFacingDirection));
                         break;
                     case ToyCommandEnum.Move:
                         var newPosition = toyRobotPlacement.GetNextAvailablePosition();

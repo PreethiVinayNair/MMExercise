@@ -4,7 +4,7 @@ namespace ToyRobotSimulator.Services.Helper
 {
     // This class will represent the Position for the toy
 
-    public class ToyPosition
+    public class ToyPosition :IToyPosition
     {
         public int X_Coordinate { get; set; }
         public int Y_Coordinate { get; set; }
