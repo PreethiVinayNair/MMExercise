@@ -9,6 +9,7 @@ namespace ToyRobotSimulator.Services.Helper
         public int X_Coordinate { get; set; }
         public int Y_Coordinate { get; set; }
 
+        //Constructs the ToyPosition
         public ToyPosition(int x_coordinate, int y_coordinate)
         {
             this.X_Coordinate = x_coordinate;
