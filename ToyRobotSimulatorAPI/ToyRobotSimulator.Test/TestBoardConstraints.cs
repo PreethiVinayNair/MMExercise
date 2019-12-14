@@ -5,11 +5,12 @@ using ToyRobotSimulator.Services.Helper;
 namespace ToyRobotSimulator.UnitTests
 {
     [TestClass]
-    public class TestConstraints
+    public class TestBoardConstraints
     {
 
+       
         /// <summary>
-        /// Test to check if toy poistion is availabe when the coordinates are within the range
+        /// Test to check if toy poistion is availabe when the coordinates are within the range of the board
         /// </summary>
         [TestMethod]
         public void TestBoardAvailabilityValid()
@@ -26,7 +27,7 @@ namespace ToyRobotSimulator.UnitTests
         }
 
         /// <summary>
-        /// Test to check if toy poistion is availabe when the coordinates are outside the range
+        /// Test to check if toy poistion is availabe when the coordinates are outside the range of the board
         /// </summary>
         [TestMethod]
 
