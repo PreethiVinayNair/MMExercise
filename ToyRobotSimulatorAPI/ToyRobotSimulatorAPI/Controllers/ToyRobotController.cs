@@ -31,6 +31,9 @@ namespace ToyRobotSimulatorAPI.Controllers
             try
             {
                 _logger.LogInformation("Start of the Toy Robot Simulator Service");
+                var report = toyRobotSimulatorService.simulate(arguments.Data);
+
+
                 return Task.FromResult("");
 
             }

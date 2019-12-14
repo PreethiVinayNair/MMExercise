@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ToyRobotSimulatorAPI.ModelBinding
 {
-    public class QueryArgumentsModelBinder
+    public class QueryArgumentsModelBinder :IModelBinder
     {
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
